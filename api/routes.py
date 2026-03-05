@@ -1,6 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Query
 from psycopg.rows import dict_row
+from psycopg.types.json import Jsonb
 from db.connection import get_conn
 from api.models import TaskCreate, TaskResponse
 
@@ -16,7 +17,7 @@ async def create_task(task: TaskCreate):
     """
     async with get_conn() as conn:
         async with conn.cursor(row_factory=dict_row) as cursor:
-            await cursor.execute(sql, [task.task_type, task.payload])
+            await cursor.execute(sql, [task.task_type, Jsonb(task.payload)])
             row = await cursor.fetchone()
     if row is None:
         raise HTTPException(status_code=500, detail="Failed to create task")
