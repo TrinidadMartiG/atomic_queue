@@ -1,4 +1,7 @@
 .env
 fase1-roadmap-sistemas-distribuidos.md
-./claude
-./venv
+.claude/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
